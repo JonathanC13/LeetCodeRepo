@@ -9,12 +9,17 @@ class Solution:
     # O(n)
     def twoSum(self, nums: List[int], target: int) -> List[int]:
 
+        # dictionary to contain the iterated values from array 'nums'. Value as the 'key' and index as the 'value'.
         dictNums = {}
+        # to assign the difference value that will be looked for in dictNums
         iDiff = None
 
+        # iterate the array 'nums' and find the indexes of the values that equal to the target 'target'. Appends to dictNums as it goes.
         for x in range(0, len(nums)):
+            # Calculate the value that would satisfy the target
             iDiff = target - nums[x]
             if (dictNums.get(iDiff) is not None):
+                # if the diff value exists in the dictNums, return the current index and the 'value' of the diff value in dictNums
                 return [x, dictNums.get(iDiff)]
             else:
                 # add the arr value as the 'key' and the index as the 'value'.
