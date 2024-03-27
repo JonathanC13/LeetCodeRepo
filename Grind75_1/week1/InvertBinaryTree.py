@@ -11,7 +11,7 @@ https://leetcode.com/problems/invert-binary-tree/
 class Solution:
     def invertTree(self, root: Optional[TreeNode]) -> Optional[TreeNode]:
         
-        # recursive solution
+        # recursive solution to get to the leaf nodes then swap from the bottom up
         # base case, return when no child found.
         if root is None:
             return root
