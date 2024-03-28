@@ -1,3 +1,7 @@
+"""
+https://leetcode.com/problems/binary-search/description/
+"""
+
 class Solution:
 
     def binarySearchRec(self, nums: List[int], left: int, right: int, target: int) -> int:
