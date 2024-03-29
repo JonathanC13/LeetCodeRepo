@@ -1,0 +1,102 @@
+1. Return stack propageted found value
+    Use return before the recursive call so that the value found will be propagated back out the the recursive stack so the value is returned.
+    e.g.
+    """
+    https://leetcode.com/problems/lowest-common-ancestor-of-a-binary-search-tree/description/
+    """
+
+    # Definition for a binary tree node.
+    # class TreeNode:
+    #     def __init__(self, x):
+    #         self.val = x
+    #         self.left = None
+    #         self.right = None
+
+    class Solution:
+        def lowestCommonAncestor(self, root: 'TreeNode', p: 'TreeNode', q: 'TreeNode') -> 'TreeNode':
+            
+            # recursive solution
+            # base case, if node is None
+            if (root is None):
+                return None
+
+            if (p.val < root.val > q.val):
+                # check left if both values are lesser than the root
+                return self.lowestCommonAncestor(root.left, p, q)
+            elif (p.val > root.val < q.val):
+                # check right if both values are greater than the root
+                return self.lowestCommonAncestor(root.right, p, q)
+            else:
+                # found the LCA
+                return root
+
+    """
+    root = [6,2,8,0,4,7,9,null,null,3,5], p = 2, p = 4
+
+    lowestCommonAncestor(6, ...)
+        since 2 < 6 and 4 < 6
+        lowestCommonAncestor(2, ...)
+            since 3 > 2 and 5 > 2
+            lowestCommonAncestor(4, ...)
+            No cond satisfied, ret root
+        ret root
+    ret root
+    """
+
+2. Depth first search. 
+Wiki: Depth-first search (DFS) is an algorithm for traversing or searching tree or graph data structures. The algorithm starts at the root node (selecting some arbitrary node as the root node in the case of a graph) and explores as far as possible along each branch before backtracking
+    Depending on the problem;
+        - modify the contents while traversing forward. e.g. FloodFill.
+        - modify the contents after determining that it is time to backtrack, based on base case. e.g. Invert binary tree
+
+        e.g. Invert Binary Tree
+        """
+        https://leetcode.com/problems/invert-binary-tree/
+        """
+
+        # Definition for a binary tree node.
+        # class TreeNode:
+        #     def __init__(self, val=0, left=None, right=None):
+        #         self.val = val
+        #         self.left = left
+        #         self.right = right
+        class Solution:
+            def invertTree(self, root: Optional[TreeNode]) -> Optional[TreeNode]:
+                
+                # recursive solution to get to the leaf nodes then swap from the bottom up
+                # base case, return when no child found.
+                if root is None:
+                    return root
+                
+                # recursively call to search the left child nodes
+                self.invertTree(root.left)
+
+                # recursively call to search the right child nodes
+                self.invertTree(root.right)
+                
+                #swap child nodes
+                temp = root.left
+                root.left = root.right
+                root.right = temp
+
+                # return the parent, at the end returns the root
+                return root
+
+        """
+        2
+        1
+            left = none, ret
+            right = none, ret
+            swap
+            ret 1
+        3
+            left = none, ret
+            right = none, ret
+            swap
+            ret 3
+        swap
+        ret 2
+
+        2, 3, 1
+        """
+                

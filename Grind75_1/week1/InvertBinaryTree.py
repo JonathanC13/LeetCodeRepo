@@ -22,7 +22,7 @@ class Solution:
         # recursively call to search the right child nodes
         self.invertTree(root.right)
         
-        #swap child nodes
+        #swap child nodes.
         temp = root.left
         root.left = root.right
         root.right = temp
