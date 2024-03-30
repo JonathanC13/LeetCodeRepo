@@ -100,3 +100,42 @@ Wiki: Depth-first search (DFS) is an algorithm for traversing or searching tree 
         2, 3, 1
         """
                 
+3. Save the return value of the recursive function so that it can be used.
+    E.g. Balanced Binary Tree. As the function stack pops (starting with the leaf nodes and height = 0), add 1 to the greater of the left and right height and return to it's parent.
+    # Definition for a binary tree node.
+    # class TreeNode:
+    #     def __init__(self, val=0, left=None, right=None):
+    #         self.val = val
+    #         self.left = left
+    #         self.right = right
+    class Solution:
+        def isBalancedCheck(self, root: Optional[TreeNode]) -> int:
+            
+            # recursive solution
+            # base case
+            if (root is None):
+                return 0
+
+            # get the height of the left subtree
+            leftSubtreeHeight = self.isBalancedCheck(root.left)
+            if (leftSubtreeHeight == -1):
+                # found an imbalance, propagate -1 through the function stack
+                return -1
+
+            # get the height of the right subtree
+            rightSubtreeHeight = self.isBalancedCheck(root.right)
+            if (rightSubtreeHeight == -1):
+                return -1
+
+            # check if imbalance for a root node
+            if (abs(leftSubtreeHeight - rightSubtreeHeight) > 1):
+                return -1
+            else:
+                # + 1 to add this level.
+                return max(leftSubtreeHeight, rightSubtreeHeight) + 1
+
+
+
+        
+        def isBalanced(self, root: Optional[TreeNode]) -> bool:
+            return self.isBalancedCheck(root) != -1
