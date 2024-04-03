@@ -1,5 +1,6 @@
 1. Return stack propageted found value
     Use return before the recursive call so that the value found will be propagated back out the the recursive stack so the value is returned.
+    Creating its own function stack with the conditionals
     e.g.
     """
     https://leetcode.com/problems/lowest-common-ancestor-of-a-binary-search-tree/description/
@@ -42,6 +43,32 @@
         ret root
     ret root
     """
+
+    e.g. Climbing stairs. The propagated value out off the stack is the values getting added then returned to its caller.
+    def climbStairsTimeoutLOL(self, n: int) -> int:
+        
+        # base case. 0 steps left
+        if (n <= 0):
+            return 1
+
+        distinct = 0
+
+        if ((n - 2) >= 0):
+            # if valid operation, add 1
+            distinct = self.climbStairs(n - 2)
+
+        if ((n - 1) >= 0):
+            distinct = distinct + self.climbStairs(n - 1)
+
+        # return the number of distinct options for the function call
+        return distinct
+
+
+    # much cleaner than mine
+    def climbStairsBetterThanMine(self, n: int) -> int:
+        if n == 0 or n == 1:
+            return 1
+        return self.climbStairs(n-1) + self.climbStairs(n-2)
 
 2. Depth first search. 
 Wiki: Depth-first search (DFS) is an algorithm for traversing or searching tree or graph data structures. The algorithm starts at the root node (selecting some arbitrary node as the root node in the case of a graph) and explores as far as possible along each branch before backtracking
@@ -145,3 +172,7 @@ read
 https://www.freecodecamp.org/news/recursion-is-not-hard-858a48830d83/
 
 https://developer.ibm.com/articles/l-recurs/
+
+
+Dynamic programming table
+https://guides.codepath.com/compsci/DP-Table#:~:text=PagePage%20History-,Dynamic%20Programming%20Table,suffix%20or%20subsequence%20problem%20type.
