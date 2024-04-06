@@ -174,5 +174,8 @@ https://www.freecodecamp.org/news/recursion-is-not-hard-858a48830d83/
 https://developer.ibm.com/articles/l-recurs/
 
 
+Dynamic programming
+https://www.geeksforgeeks.org/tabulation-vs-memoization/
+
 Dynamic programming table
 https://guides.codepath.com/compsci/DP-Table#:~:text=PagePage%20History-,Dynamic%20Programming%20Table,suffix%20or%20subsequence%20problem%20type.
