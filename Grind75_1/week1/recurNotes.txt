@@ -1,3 +1,19 @@
+
+
+https://developer.ibm.com/articles/l-recurs/
+Basic steps of recursive programs
+
+Every recursive program follows the same basic sequence of steps:
+
+    1. Initialize the algorithm. Recursive programs often need a seed value to start with. This is accomplished either by using a parameter passed to the function or by providing a gateway function that is nonrecursive but that sets up the seed values for the recursive calculation.
+    2. Check to see whether the current value(s) being processed match the base case. If so, process and return the value.
+    3. Redefine the answer in terms of a smaller or simpler sub-problem or sub-problems.
+    4. Run the algorithm on the sub-problem.
+    5. Combine the results in the formulation of the answer.
+    6. Return the results.
+
+
+
 1. Return stack propageted found value
     Use return before the recursive call so that the value found will be propagated back out the the recursive stack so the value is returned.
     Creating its own function stack with the conditionals
@@ -168,13 +184,14 @@ Wiki: Depth-first search (DFS) is an algorithm for traversing or searching tree 
             return self.isBalancedCheck(root) != -1
 
 
-read
-https://www.freecodecamp.org/news/recursion-is-not-hard-858a48830d83/
-
-https://developer.ibm.com/articles/l-recurs/
-
+Dynamic programming
+https://www.geeksforgeeks.org/tabulation-vs-memoization/
 
 Dynamic programming table
+<<<<<<< HEAD
 https://medium.com/enjoy-algorithm/top-down-vs-bottom-up-approach-in-dynamic-programming-53b917bfbe0#:~:text=Top%2Ddown%20is%20a%20recursive,only%20once%20using%20the%20recursion.
 https://www.geeksforgeeks.org/tabulation-vs-memoization/
 https://guides.codepath.com/compsci/DP-Table
+=======
+https://guides.codepath.com/compsci/DP-Table#:~:text=PagePage%20History-,Dynamic%20Programming%20Table,suffix%20or%20subsequence%20problem%20type.
+>>>>>>> 11bdf58d5ac5e68dcdd30e7adfe0211ceab7c224
