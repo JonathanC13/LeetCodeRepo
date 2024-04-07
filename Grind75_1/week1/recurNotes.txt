@@ -175,4 +175,6 @@ https://developer.ibm.com/articles/l-recurs/
 
 
 Dynamic programming table
-https://guides.codepath.com/compsci/DP-Table#:~:text=PagePage%20History-,Dynamic%20Programming%20Table,suffix%20or%20subsequence%20problem%20type.
+https://medium.com/enjoy-algorithm/top-down-vs-bottom-up-approach-in-dynamic-programming-53b917bfbe0#:~:text=Top%2Ddown%20is%20a%20recursive,only%20once%20using%20the%20recursion.
+https://www.geeksforgeeks.org/tabulation-vs-memoization/
+https://guides.codepath.com/compsci/DP-Table
