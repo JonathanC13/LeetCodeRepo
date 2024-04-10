@@ -33,7 +33,7 @@ class Solution:
         self.diameterOfBinaryTreeRec(root)
         return self.maxLen
 
-    # timed out on last test case. 
+    # timed out on last test case due to checking a nodes depth redundantly.
     def diameterOfBinaryTreeMine(self, root: Optional[TreeNode]) -> int:
 
         currNode = root
