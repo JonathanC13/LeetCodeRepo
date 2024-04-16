@@ -17,6 +17,8 @@ class Solution:
 
         retList = []
 
+        # recursive function to check each interval in intervals and merging if needed into newInterval
+        # binary search to get to each elem
         def merge(start: int, end: int):
             nonlocal newInterval
             nonlocal left
@@ -71,9 +73,9 @@ class Solution:
                 retList.append(intervals[interIdx])
                 interIdx = interIdx + 1
 
+        # if newInterval is left over, add it at the end
         if (not addedFlag):
             retList.append(newInterval)
                              
 
         return retList
-
