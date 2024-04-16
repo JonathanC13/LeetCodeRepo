@@ -3,7 +3,7 @@ https://leetcode.com/problems/insert-interval/description/
 """
 
 class Solution:
-    def insert(self, intervals: List[List[int]], newInterval: List[int]) -> List[List[int]]:
+    def insertMine(self, intervals: List[List[int]], newInterval: List[int]) -> List[List[int]]:
         
         lenOfList = len(intervals)
 
@@ -79,3 +79,36 @@ class Solution:
                              
 
         return retList
+
+
+    def insertLinear(self, intervals: List[List[int]], newInterval: List[int]) -> List[List[int]]:
+
+        lenOfIntervals = len(intervals)
+        i = 0
+        retList = []
+
+        while (i < lenOfIntervals and intervals[i][1] < newInterval[0]):
+            # if interval end is less than the newInterval start, can just add
+            retList.append(intervals[i])
+            i = i + 1
+
+        while (i < lenOfIntervals and intervals[i][0] <= newInterval[1]):
+            # if interval start is less than the newInterval end
+            newInterval[0] = min(newInterval[0], intervals[i][0])
+            newInterval[1] = max(newInterval[1], intervals[i][1])
+            i = i + 1
+
+        # after merges, append to retList
+        retList.append(newInterval)
+
+        while (i < lenOfIntervals):
+            # remainder of the list
+            retList.append(intervals[i])
+            i = i + 1
+
+        return retList
+
+
+    def insert(self, intervals: List[List[int]], newInterval: List[int]) -> List[List[int]]:
+        #return self.insertMine(intervals, newIntervals)
+        return self.insertLinear(intervals, newInterval)
