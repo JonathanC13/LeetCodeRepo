@@ -5,70 +5,75 @@ https://leetcode.com/problems/insert-interval/description/
 class Solution:
     def insert(self, intervals: List[List[int]], newInterval: List[int]) -> List[List[int]]:
         
-        start = 0
-        end = len(intervals) - 1
-        mid = 0
+        lenOfList = len(intervals)
 
-        if (end == -1):
+        if (lenOfList == 0):
             intervals.append(newInterval)
             return intervals
 
-        while start <= end:
+        # track range of indexed that were merged
+        left = lenOfList
+        right = 0
+
+        retList = []
+
+        def merge(start: int, end: int):
+            nonlocal newInterval
+            nonlocal left
+            nonlocal right
+            nonlocal retList
+
+            if (start > end):
+                return
+
             mid = start + ((end - start) // 2)
-            print(str(mid))
-            if (newInterval[0] >= intervals[mid][0] and newInterval[0] <= intervals[mid][1]):
-                break
-            elif (newInterval[0] < intervals[mid][0]):
-                # go left
-                end = mid - 1
 
-            elif (newInterval[0] > intervals[mid][0]):
-                # go right
-                start = mid + 1
+            if ((newInterval[0] >= intervals[mid][0] and newInterval[0] <= intervals[mid][1])
+                    or (newInterval[1] >= intervals[mid][0] and newInterval[1] <= intervals[mid][1])):
+                # if the newInterval start is within the interval at mid
+                #   or newInterval end is within the interval at mid
+                newInterval[0] = min(newInterval[0], intervals[mid][0])
+                newInterval[1] = max(newInterval[1], intervals[mid][1])
+                left = min(left, mid)
+                right = max(right, mid)
+            elif (newInterval[0] <= intervals[mid][0] and newInterval[1] >= intervals[mid][1]):
+                # if newInterval totally contains the interval at mid, no merge
+                left = min(left, mid)
+                right = max(right, mid)
+            # else pass
 
+            # check left mid to merge
+            merge(start, mid - 1)
+
+            # check right mid to merge
+            merge(mid + 1, end)
+
+            # fin
+
+        merge(0, lenOfList - 1)
+        print(str(left))
+        print(str(right))
+        print(newInterval)
+
+        # slice out the merged intervals if merge happened
+        if (left <= right):
+            intervals = intervals[:left] + intervals[right + 1:]
+
+        addedFlag = 0
+        interIdx = 0
+        lenOfList = len(intervals)
+
+        while (interIdx < lenOfList):
+            if (newInterval[1] < intervals[interIdx][0] and not addedFlag):
+                retList.append(newInterval)
+                addedFlag = 1
             else:
-                # starts match
-                break
+                retList.append(intervals[interIdx])
+                interIdx = interIdx + 1
 
-        # mid represents an exact start value match or the index +- 1 that it can insert at (need to check again).
-        mergedInterval = []
-        print('-' + str(mid))
-        if (intervals[mid][0] <= newInterval[0] and intervals[mid][1] >= newInterval[0]):
-            # if new interval start is within the interval at mid
-            mergedInterval.append(intervals[mid][0])
-        elif (newInterval[0] <= intervals[mid][0] and newInterval[1] >= intervals[mid][0]):
-            # if interval start at mid is within the new interval
-            mergedInterval.append(newInterval[0])
+        if (not addedFlag):
+            retList.append(newInterval)
+                             
 
-        elif (newInterval[1] < intervals[mid][1]):
-            # if the end of the new interval is less than the interval at mid
-            # insert and return
-            intervals.insert(mid, newInterval)
-            return intervals
+        return retList
 
-        else:
-            # start of new interval is greater than the end of interval at mid
-            intervals.insert(min(len(intervals), mid + 1), newInterval)
-            return intervals
-
-        #
-        newList = []
-
-        # initial merged end value
-        mergedInterval.append(max(intervals[mid][1], newInterval[1]))
-
-        for i in range(0, len(intervals)):
-            if (i < mid):
-                # just the valid left intervals
-                newList.append(intervals[i])
-            elif (i == mid):
-                newList.append(mergedInterval)
-            elif (intervals[i][0] <= mergedInterval[1]):
-                # if end of merged contains the start of the interval at i
-                # take its end if larger
-                mergedInterval[1] = max(mergedInterval[1], intervals[i][1])
-            else:
-                newList.append(intervals[i])
-
-
-        return newList
