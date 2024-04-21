@@ -9,7 +9,9 @@ https://leetcode.com/problems/binary-tree-level-order-traversal/description/
 #         self.left = left
 #         self.right = right
 class Solution:
-    def levelOrder(self, root: Optional[TreeNode]) -> List[List[int]]:
+
+    # faster than levelOrderBetterChildTrack, but uses more mem
+    def levelOrderFirstSolution(self, root: Optional[TreeNode]) -> List[List[int]]:
         
         # BFS. Iterative solution
         if (root is None):
@@ -51,7 +53,7 @@ class Solution:
 
             if (arrChildNodesPerLvl[level] == 0):
                 # if 0, it means that no more nodes on this level
-                
+
                 # since level complete, add the tempList to retList
                 retList.append(tempList)
                 # clear tempList because it is moving to the next level
@@ -65,3 +67,40 @@ class Solution:
                 countOfChildNodes = 0
 
         return retList
+
+
+    def levelOrderBetterChildTrack(self, root: Optional[TreeNode]) -> List[List[int]]:
+        if (root is None):
+            return []
+
+        queue = deque()
+        tempList = []
+        retList = []
+
+        queue.append(root)
+        currLevelSize = 1
+
+        while (len(queue)):
+            # get the number of nodes on this level to evaluate.
+            currentLevelSize = len(queue)
+
+            # only evaluate the nodes on this level
+            for x in range(currentLevelSize):
+                node = queue.popleft()
+                tempList.append(node.val)
+
+                if (node.left is not None):
+                    queue.append(node.left)
+
+                if (node.right is not None):
+                    queue.append(node.right)
+
+            retList.append(tempList)
+            tempList = []
+
+        return retList
+
+
+    def levelOrder(self, root: Optional[TreeNode]) -> List[List[int]]:
+        #return self.levelOrderFirstSolution(root)
+        return self.levelOrderBetterChildTrack(root)
