@@ -6,10 +6,20 @@ import operator
 
 class Solution:
 
+    # if not using operator lib, can use this.
+    def opertaion(self, op: str, a: int, b: int):
+        if op == '+':
+            return a + b
+        elif op == '-':
+            return a - b
+        elif op == '*':
+            return a * b
+        return int(a / b)
+
     # https://en.wikipedia.org/wiki/Reverse_Polish_notation
     # int(a/b) truncates toward 0 for python
 
-    # 67 ms, 17.20 MB
+    # 59 ms, 17.31 MB
     def evalRPNMine(self, tokens: List[str]) -> int:
         
         stack = deque()
@@ -37,7 +47,10 @@ class Solution:
                     sec = stack.pop()
                     fir = stack.pop()
                     
-                    stack.append(int(ops[tokens[x]](fir,sec)))
+                    # if not using operator lib, can use this.
+                    stack.append(self.opertaion(tokens[x], fir, sec))
+
+                    #stack.append(int(ops[tokens[x]](fir,sec)))
                 
         # the last item in the stack is the final anwer
         return stack.pop()
@@ -80,5 +93,5 @@ class Solution:
 
     
     def evalRPN(self, tokens: List[str]) -> int:
-        #return self.evalRPNMine(tokens)
-        return self.evalRPNRecur(tokens)
+        return self.evalRPNMine(tokens)
+        #return self.evalRPNRecur(tokens)
