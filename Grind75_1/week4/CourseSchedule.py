@@ -26,10 +26,10 @@ class Solution:
             if (currVert in visited):
                 # means have checked before and could mean cycle, look deeper
                 if (currVert in stack):
-                    # indicates cycle, since DFS if the vertice is still on the stack it is in a lower degree.
+                    # indicates cycle, since DFS if the vertice is still on the stack it is connected
                     return True
                 else:
-                    # else if not a stack means higher degree and does not indicate cycle
+                    # else if not a stack
                     return False
                 
             # indicating this vertice's adj are being checked
@@ -38,6 +38,7 @@ class Solution:
             visited.add(currVert)
 
             for adj in adjList[currVert]:
+                # must check all adj even if visited, since for a cycle the the connecting node has been visited and still on the stack
                 if (checkCycleDFS(adj, stack, visited)):
                     return True
 
@@ -48,9 +49,11 @@ class Solution:
         
         for x in range(numCourses):
             stack = deque()
-            if (checkCycleDFS(x, stack, visited)):
-                # if has a cycle, ret False to being able to complete courses
-                return False
+            if (x not in visited):
+                # can skip visited starting nodes since if there was a cycle the previous path containing this node would have caught it
+                if (checkCycleDFS(x, stack, visited)):
+                    # if has a cycle, ret False to being able to complete courses
+                    return False
 
         return True
 
@@ -105,5 +108,5 @@ class Solution:
 
 
     def canFinish(self, numCourses: int, prerequisites: List[List[int]]) -> bool:
-        #return self.canFinishDFS(numCourses, prerequisites)
-        return self.canFinishBFS(numCourses, prerequisites)
+        return self.canFinishDFS(numCourses, prerequisites)
+        #return self.canFinishBFS(numCourses, prerequisites)
