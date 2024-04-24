@@ -41,7 +41,7 @@ class Solution:
                 else:
                     newNode.neighbors.append(visited[neighbor.val])
 
-            # this will return the head of the cloned graph
+            # ret node to be appended, final ret is the new head node
             return newNode
 
         return DFS(node, visited)
