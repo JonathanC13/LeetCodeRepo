@@ -17,7 +17,8 @@ class Solution:
         minCoinEach = [float("inf")] * (amount + 1)
 
         # for each amount in the table, determine the number of combinations from the coins that can sum to the amount.
-        for currSum in range(amount + 1):
+        # exclude 0 since no coins would sum to it.
+        for currSum in range(1, amount + 1):
 
             # each amount, loop the coins to see if each coin can sum to the amount
             for coin in coins:
@@ -31,7 +32,7 @@ class Solution:
                     #dpTable[x] = min(dpTable[x], dpTable[idx] + 1)
 
                     # using If so I can track overhead of exact coins for the minimum coin combination
-                    if ((dpTable[idx] + 1) < dpTable[currSum]):
+                    if ((dpTable[idx] != float("inf")) and ((dpTable[idx] + 1) < dpTable[currSum])):
                         dpTable[currSum] = dpTable[idx] + 1
                         minCoinEach[currSum] = coin
 
