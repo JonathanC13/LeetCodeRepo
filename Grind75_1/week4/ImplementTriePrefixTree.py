@@ -2,60 +2,73 @@
 https://leetcode.com/problems/implement-trie-prefix-tree/
 """
 
-class Node:
-    def __init__(self, val = 0, wordEnd = False, nextTrieNode = None):
-        self.val = val
-        self.wordEnd = wordEnd
-        self.nextTrieNode = nextTrieNode
 
+
+# The Trie Node is an array of pointers for each lowercase char that point to the next Trie Node
 class TrieNode:
-    charHashmap = None
+    
     def __init__(self):
-        self.charHashmap = dict()
-
-    def getTrieNode(self):
-        return self.charHashmap
-
-
-# Each Trie Node is a hash map with 'key' as the ascii decimal value of the lower case char
-#   the value is a Node that contains the 'value', 'wordEnd', and 'nextTrieNode'
-# Change from hash map to array with preloaded 25 elems all None.
+        end = ord('z') - ord('a') + 1
+        self.trieNode = [None] * end
+        self.wordEnd = False
 
 
 class Trie:
     thisTrie = None
 
+    asciiOffset = ord('a')
+
     def __init__(self):
-        self.thisTrie = TrieNode().getTrieNode()
-        
+        self.thisTrie = TrieNode()
 
     def insert(self, word: str) -> None:
         ptTrieNode = self.thisTrie
         lenWord = len(word)
+
         for i in range(lenWord):
-            charDec = ord(word[i])
-            if (charDec not in ptTrieNode):
-                # add new node for char if not exists
-                ptTrieNode[charDec] = Node(charDec)
+            indx = ord(word[i]) - self.asciiOffset
 
-            if (i == lenWord - 1):
-                # if on last char, set 'end' to True and break
-                ptTrieNode[charDec].wordEnd = True
-                break
-
-            if (ptTrieNode[charDec].nextTrieNode is None):
-                # not end of word and 'nextTrieNode' is None, add empty hash map
-                ptTrieNode[charDec].nextTrieNode = TrieNode().getTrieNode()
+            if (ptTrieNode.trieNode[indx] is None):
+                # create new Trie Node and assign
+                ptTrieNode.trieNode[indx] = TrieNode()
             
-            # move pointer to next TrieNode
-            ptTrieNode = ptTrieNode[charDec].nextTrieNode
+
+            # go to next TrieNode
+            ptTrieNode = ptTrieNode.trieNode[indx]
             
         
+        # when end of word, ensure that the wordEnd = True
+        # just set to true
+        ptTrieNode.wordEnd = True
+        
+    
+    def searchGeneral(self, word: str, fullWord: bool) -> bool:
+        ptTrieNode = self.thisTrie
+        lenWord = len(word)
+
+        for i in range(lenWord):
+            indx = ord(word[i]) - self.asciiOffset
+
+            if (ptTrieNode.trieNode[indx] is None):
+                # does not have that char in the Trie, cannot complete word / prefix
+                return False
+            
+            # move to next TrieNode
+            ptTrieNode = ptTrieNode.trieNode[indx]
+
+        
+        if (fullWord == True):
+            return ptTrieNode.wordEnd
+        else:
+            # if prefix exists, since it got here it does
+            return True 
+
+
     def search(self, word: str) -> bool:
-        return True
+        return self.searchGeneral(word, True)
 
     def startsWith(self, prefix: str) -> bool:
-        return True
+        return self.searchGeneral(prefix, False)
         
 
 
