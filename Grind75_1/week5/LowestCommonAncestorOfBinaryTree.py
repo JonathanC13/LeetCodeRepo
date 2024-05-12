@@ -10,50 +10,33 @@ https://leetcode.com/problems/lowest-common-ancestor-of-a-binary-tree/
 #         self.right = None
 
 class Solution:
+
     def lowestCommonAncestor(self, root: 'TreeNode', p: 'TreeNode', q: 'TreeNode') -> 'TreeNode':
         
-        def helperDFS(root: 'TreeNode', p: 'TreeNode', q: 'TreeNode'):
-            if (root is None or root == p or root == q):
+        def helperDFS(root: 'TreeNode'):
+
+            if (root == None or root == p or root == q):
                 return root
 
-            # search left children
-            left = helperDFS(root.left, p, q)
-            if (left is not None):
-                return left
+            # search left first
+            leftResult = helperDFS(root.left)
 
-            # search right children
-            right = helperDFS(root.right, p, q)
-
-            return right
-
-        
-        # Get best candidate for LCA node and DFS to confirm
-        queue = deque()
-
-        queue.append(root)
-
-        while (len(queue) != 0):
-            leftFound = None
-            rightFound = None
-
-            currNode = queue.popleft()
-
-        
-            # run DFS on the left child to try to find p or q
-            leftFound = helperDFS(currNode.left, p, q)
-
-            # run DFS on the right child to try to find p or q
-            rightFound = helperDFS(currNode.right, p, q)
-
-
-            if (((currNode == q or currNode == p) and (leftFound is not None or rightFound is not None)) or (leftFound is not None and rightFound is not None)):
-                return currNode
-            elif (leftFound is not None and rightFound is None):
-                # if found on left sub tree and not on right. Start next searh from left child
-                queue.append(currNode.left)
-            elif (leftFound is None and rightFound is not None):
-                queue.append(currNode.right)
+            # search right
+            rightResult = helperDFS(root.right)
+            
+            if (leftResult is not None and rightResult is not None):
+                # if both found, this current root is the LCA
+                return root
+            elif (leftResult is not None):
+                # propagate found left up to state to the above nodes it was found
+                # if by the end, since p and q are guarenteed to exist, this is the only found it is the LCA
+                return leftResult
+            elif (rightResult is not None):
+                # propagate found right up
+                return rightResult
             else:
-                # LCA does not exist
                 return None
-                
+
+        # if p and q are not guarenteed to be in the tree run a normal DFS to check if both exist before running the helperDFS to find the LCA.
+
+        return helperDFS(root)
