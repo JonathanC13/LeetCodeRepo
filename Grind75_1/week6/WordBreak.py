@@ -82,11 +82,12 @@ class Solution:
                     break
 
 
-        # print all the words from dpTable
-        print(dpTable)
-        print(potenWords)
+        # print all the words from dpTable, word break with the most words
+        #print(dpTable)
+        #print(potenWords)
 
-        # to get accurate word break set, iterate again to link Trues from end to beginning
+        # to get one full solution word break set, iterate again to link Trues from end to beginning
+        """
         if (dpTable[lenS]):
             wordBreakArr = []
             idx = len(dpTable) - 1
@@ -98,15 +99,44 @@ class Solution:
                         break
 
             print(wordBreakArr)
+        """
 
         return dpTable[lenS]
 
 
+    def wordBreakRec(self, s: str, wordDict: List[str]) -> bool:
+
+        # recusive DFS with memorization
+        wordSet = set(wordDict)
+        memoSet = {}
+
+        def DFS(memoSet: List[int], substr: str) -> bool:
+
+            if (substr in memoSet):
+                # already evaluated
+                return memoSet[substr]
+            elif (substr in wordSet):
+                return True            
+
+            for i in range(1, len(substr)):
+                # for each prefix in substr check if in the wordSet and DFS for the remaining substr
+                # post fix atleast 1 char, so end at len(substr) - 1
+                if (substr[:i] in wordSet and DFS(memoSet, substr[i:])):
+                    memoSet[substr] = True
+                    return True
+
+            # if all prefix cannot break, set false
+            memoSet[substr] = False
+            return False
+
+        
+        res = DFS(memoSet, s)
+        # note: harder to get list of words that result in the successful word break
+        print (memoSet)
+        return res
+
+
     def wordBreak(self, s: str, wordDict: List[str]) -> bool:
         #return self.wordBreakMine(s, wordDict)
-        return self.wordBreakDP(s, wordDict)
-
-    """
-    to look at DFS soln here
-    https://leetcode.com/problems/word-break/solutions/3860456/100-dp-dfs-video-segmenting-a-string
-    """
+        #return self.wordBreakDP(s, wordDict)
+        return self.wordBreakRec(s, wordDict)
