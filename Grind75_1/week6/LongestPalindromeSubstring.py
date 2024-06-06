@@ -5,7 +5,7 @@ https://leetcode.com/problems/longest-palindromic-substring/
 class Solution:
     def longestPalindromeMine(self, s: str) -> str:
         
-        if (len(s) == 0):
+        if (len(s) <= 1):
             return s
 
         resLongest = s[0]
