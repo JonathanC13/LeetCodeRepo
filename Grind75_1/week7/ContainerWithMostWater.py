@@ -60,7 +60,7 @@ class Solution:
             rightH = height[right]
 
             # container height is limited by the shortest height
-            maxArea = min(leftH, rightH) * (right - left)
+            maxArea = max(maxArea, min(leftH, rightH) * (right - left))
 
             # move shortest height pointer since to maximize keep the tallest
             if (leftH <= rightH):
@@ -73,4 +73,4 @@ class Solution:
 
     def maxArea(self, height: List[int]) -> int:
         #return self.maxAreaTabulate(height)
-        return maxAreaDoublePt(height)
+        return self.maxAreaDoublePt(height)
