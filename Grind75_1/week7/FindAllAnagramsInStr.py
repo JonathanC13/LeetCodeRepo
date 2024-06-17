@@ -4,54 +4,40 @@ https://leetcode.com/problems/find-all-anagrams-in-a-string/
 
 class Solution:
     def findAnagrams(self, s: str, p: str) -> List[int]:
-        lenP = len(p)
         
-        # mark currently used in a substring that could be an anagram of p
-        used = [False] * lenP
+        len_s = len(s)
+        len_p = len(p)
 
-        currAna = ""
-        retList = []
+        if (len_p > len_s):
+            return []
+            
+        dict_p = defaultdict(int)
+        for i in p:
+            dict_p[i] += 1
 
-        usedFlag = False
+        dict_s = defaultdict(int)
+        # initial substring freq dict, -1 since in window will add the last value
+        for j in range(len_p - 1):
+            dict_s[s[j]] += 1
 
-        for i in range(len(s)):
+        ret_list = []
 
-            if (s[i] in p):
-                
-                for j in range(lenP):
-                    if (s[i] == p[j]):
-                        if (not used[j]):
-                            usedFlag = True
-                            used[j] = True
-                            currAna += s[i]
+        # sliding window
+        for i in range(len_s - len_p + 1):
+            
+            # add freq of the new end value of the window
+            dict_s[s[i + len_p - 1]] += 1
 
-                            if (len(currAna) == lenP):
-                                print(currAna)
-                                retList.append(i - (lenP - 1))
-                                # reset
-                                used = [False] * lenP
-                                currAna = ""
+            # if dict_s has the same char freq as dict_p
+            # https://stackoverflow.com/questions/4527942/comparing-two-dictionaries-and-checking-how-many-key-value-pairs-are-equal
+            if (dict_s == dict_p):
+                #print(s[i:i + len_p])
+                ret_list.append(i)
+            
+            #remove the value that is leaving the window
+            dict_s[s[i]] -= 1
+            if (dict_s[s[i]] == 0):
+                # must remove if 0, or the comparison with dict_p will not work
+                dict_s.pop(s[i])
 
-                                # keep current, since it could lead into next anagram
-                                used[j] = True
-                                currAna += s[i]
-                            
-                            break
-
-                if (not usedFlag):
-                    # reset
-                    used = [False] * lenP
-                    currAna = ""
-
-                    # but keep current, since it could lead into next anagram
-                    used[dictP[s[i]]] = True
-                    currAna += s[i]
-                else:
-                    usedFlag = True
-
-            else:
-                # reset
-                used = [False] * lenP
-                currAna = ""
-
-        return retList
+        return ret_list
