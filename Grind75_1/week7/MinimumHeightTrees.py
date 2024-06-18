@@ -4,7 +4,7 @@ https://leetcode.com/problems/minimum-height-trees/description/
 
 class Solution:
     #TLE
-    def findMinHeightTrees(self, n: int, edges: List[List[int]]) -> List[int]:
+    def findMinHeightTreesBrute(self, n: int, edges: List[List[int]]) -> List[int]:
         
         if (n == 0):
             return []
@@ -83,3 +83,44 @@ class Solution:
                 retList.append(i)
 
         return retList
+
+    
+    def findMinHeightTrees(self, n: int, edges: List[List[int]]) -> List[int]:
+        
+        if (n == 1):
+            return [0]
+
+        # initialize sets for each node's adjacent nodes
+        adj = [set() for _ in range(n)]
+
+        for x, y in edges:
+            adj[x].add(y)
+            adj[y].add(x)
+
+        # get the leaves, nodes that only have 1 edge
+        leaves = [i for i in range(n) if len(adj[i]) == 1]
+
+        #print(adj)
+        #print(leaves)
+
+        # 2 because MHT is either 1 or 2
+        while n > 2:
+            # remove the leaves
+            n -= len(leaves)
+
+            newLeaves = []
+
+            for i in leaves:
+                # each leaf, remove from the adj list to prune.
+                leaf = adj[i].pop()
+                adj[leaf].remove(i)
+
+                if (len(adj[leaf]) == 1):
+                    newLeaves.append(leaf)
+
+            leaves = newLeaves
+
+        return leaves
+
+
+
