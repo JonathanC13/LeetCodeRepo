@@ -93,9 +93,9 @@ class Solution:
         # initialize sets for each node's adjacent nodes
         adj = [set() for _ in range(n)]
 
-        for x, y in edges:
-            adj[x].add(y)
-            adj[y].add(x)
+        for i, j in edges:
+            adj[i].add(j)
+            adj[j].add(i)
 
         # get the leaves, nodes that only have 1 edge
         leaves = [i for i in range(n) if len(adj[i]) == 1]
@@ -103,7 +103,7 @@ class Solution:
         #print(adj)
         #print(leaves)
 
-        # 2 because MHT is either 1 or 2
+        # 2 because MHT is either 1 or 2 because a tree is not cyclic
         while n > 2:
             # remove the leaves
             n -= len(leaves)
@@ -112,11 +112,11 @@ class Solution:
 
             for i in leaves:
                 # each leaf, remove from the adj list to prune.
-                leaf = adj[i].pop()
-                adj[leaf].remove(i)
+                connected_to = adj[i].pop()
+                adj[connected_to].remove(i)
 
-                if (len(adj[leaf]) == 1):
-                    newLeaves.append(leaf)
+                if (len(adj[connected_to]) == 1):
+                    newLeaves.append(connected_to)
 
             leaves = newLeaves
 
