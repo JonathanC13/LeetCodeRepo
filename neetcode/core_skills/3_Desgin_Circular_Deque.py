@@ -60,11 +60,7 @@ class MyCircularDeque:
             # has nodes
             self.tail = self.tail.prev   # back one node
             self.tail.next = self.tail.next.next    # 'jump' over node to be removed
-            if (self.tail.next is not None):
-                self.tail.next.prev = self.tail
-                self.tail = self.tail.next
             self.size -= 1
-            self.print()
             return True
 
     def getFront(self) -> int:
