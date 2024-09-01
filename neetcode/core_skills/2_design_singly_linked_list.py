@@ -1,3 +1,7 @@
+# https://neetcode.io/problems/singlyLinkedList
+
+from collections import List
+
 class Node:
     def __init__(self, val, next = None):
         self.val = val

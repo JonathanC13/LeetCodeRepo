@@ -1,3 +1,5 @@
+# https://neetcode.io/problems/dynamicArray
+
 class DynamicArray:
     
     def __init__(self, capacity: int):
