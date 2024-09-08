@@ -4,6 +4,8 @@ class Solution:
     def threeSum(self, nums: List[int]) -> List[List[int]]:
         if not nums:
             return nums
+        elif (len(nums) < 3):
+            return []
 
         res = []
         nums.sort() # sort so that all negatives and positive values are on the sides.
