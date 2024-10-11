@@ -59,7 +59,7 @@ class Solution:
 
         #         dp_table[i] = max(robbed, not_robbed);
             
-        #     return max(dp_table)
+        #     return dp_table[last_house_idx - 1]
                       
         # no_last_house = itr(0, len(nums)-1)
         # last_house = itr(1, len(nums))
