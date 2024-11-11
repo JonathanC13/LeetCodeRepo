@@ -43,8 +43,8 @@ class Solution {
         // quQ.push(q)
 
         // while (quP.length && quQ.length) {
-        //     let currP = quP.pop(0)
-        //     let currQ = quQ.pop(0)
+        //     let currP = quP.shift()
+        //     let currQ = quQ.shift()
 
         //     if (currP === null && currQ === null) {
         //         continue
