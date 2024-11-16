@@ -10,27 +10,28 @@
  * }
  */
 
+/*
+Need to iterate the linked list while keeping track of the previous node to reverse the link
+Time: O(n), n is the number of nodes
+Space: O(1)
+*/
+
 class Solution {
     /**
      * @param {ListNode} head
      * @return {ListNode}
      */
     reverseList(head) {
-        if (head === null){
-            return head
-        }
         let prev = null
-        let next = head.next
+        let curr = head
 
-        while (next !== null) {
-            head.next = prev
-
-            prev = head
-            head = next
-            next = head.next
+        while(curr) {
+            const tmp = curr.next
+            curr.next = prev
+            prev = curr
+            curr = tmp
         }
 
-        head.next = prev
-        return head
+        return prev
     }
 }
