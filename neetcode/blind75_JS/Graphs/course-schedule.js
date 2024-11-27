@@ -8,23 +8,21 @@ class Solution {
     */
 
     dfs(crs, adjList, visited) {
-        if (visited.has(crs)) {
-            return false
-        }
         if (adjList[crs].length === 0) {
             return true
+        }
+        if (visited.has(crs)) {
+            return false
         }
 
         visited.add(crs)
 
-        // for each adjacency node, must check for cycles
-        for (let adj of adjList[crs]) {
-            if (!this.dfs(adj, adjList, visited)) {
+        for (let pre of adjList[crs]) {
+            if (!this.dfs(pre, adjList, visited)) {
                 return false
             }
         }
 
-        // remove so does not interfere with next cycle detection
         visited.delete(crs)
 
         // TO reduce checking the same adjList again that has proven no cycle, can remove it so it is not checked again
@@ -44,15 +42,16 @@ class Solution {
         }
 
         // create adj list
-        const adjList = Array(numCourses).fill().map(() => {return []})
-        for (let [crs, pre] of prerequisites) {
+        const adjList = Array(numCourses).fill().map((elem) => {return []})
+        for (let [crs, pre] of prerequisites){
             adjList[crs].push(pre)
         }
 
         const visited = new Set()
 
-        for (let i = 0; i < numCourses; i ++) {
-            if (!this.dfs(i, adjList, visited)){
+        // check for cycles
+        for (let i = 0; i < numCourses; i ++){
+            if (!this.dfs(i, adjList, visited)) {
                 return false
             }
         }

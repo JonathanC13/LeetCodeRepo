@@ -2,12 +2,6 @@
 
 class Solution {
 
-    /*
-    construct a adjList
-    for each node DFS 
-        If the initial node was not visited + 1 and then visit all the connected nodes to mark them visited.
-    */
-
     dfs(node, parent, adjList, visited) {
         if (visited.has(node)) {
             return
@@ -15,12 +9,12 @@ class Solution {
 
         visited.add(node)
 
-        for (let neigh of adjList[node]) {
-            if (neigh === parent) {
+        for (let neigh of adjList[node]){
+            if (parent === neigh) {
                 continue
-            } else {
-                this.dfs(neigh, node, adjList, visited)
             }
+
+            this.dfs(neigh, node, adjList, visited)
         }
 
         return
