@@ -28,7 +28,7 @@ class Solution {
         if (r < 0 || r >= rows || c < 0 || c >= cols || visited[r][c] === true || prevVal >= matrix[r][c]) {
             return 0
         }
-
+        
         if (dp.has(`(${r}, ${c})`)) {
             return dp.get(`(${r}, ${c})`)
         }
@@ -37,11 +37,12 @@ class Solution {
 
         let maxIncrease = 0
         for (let [dr, dc] of directions) {
-            maxIncrease = Math.max(maxIncrease, this.dfsNoDP(matrix, dr + r, dc + c, rows, cols, visited, matrix[r][c], directions))
+            maxIncrease = Math.max(maxIncrease, this.dfsWithDP(matrix, dr + r, dc + c, rows, cols, visited, matrix[r][c], directions, dp))
         }
 
         visited[r][c] = false
         dp.set(`(${r}, ${c})`, 1 + maxIncrease)
+        
         return dp.get(`(${r}, ${c})`) 
     }
 
