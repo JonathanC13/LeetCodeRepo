@@ -19,6 +19,11 @@ return max
 
 Time: O(n)
 Space: O(n)
+
+
+* Boyer-Moore Majority Vote
+Time: O(n)
+Space: O(1)
 */
 
 /**
@@ -26,6 +31,9 @@ Space: O(n)
  * @return {number}
  */
 var majorityElement = function(nums) {
+
+    return majVote(nums)
+
     const freq = new Map()
 
     for(let i = 0; i < nums.length; i ++) {
@@ -46,3 +54,26 @@ var majorityElement = function(nums) {
 
     return majNum
 };
+
+var majVote = function(nums) {
+    let candidate = Number.NEGATIVE_INIFINTY
+    let votes = 0
+    for (let i = 0; i < nums.length; i ++) {
+        if (nums[i] === candidate) {
+            votes += 1
+        } else if (votes === 0) {
+            candidate = nums[i]
+            votes = 1
+        } else {
+            votes -= 1
+        }
+    }
+    let cnt = 0
+    for (let i = 0; i < nums.length; i ++) {
+        if (nums[i] === candidate) {
+            cnt += 1
+        }
+    }
+
+    return cnt > nums.length/2 ? candidate : -99
+}
