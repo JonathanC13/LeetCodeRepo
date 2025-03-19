@@ -49,16 +49,6 @@ class Solution {
         return this.bottomUp(nums, target)
     }
 
-    topDown(nums, target) {
-        const totalSum = nums.reduce(
-            (accumulator, currentValue) => accumulator + currentValue,
-            0,
-        );
-        const memo = Array.from(new Array(nums.length), (e) => new Array(2 * totalSum + 1).fill(Number.NEGATIVE_INFINITY))
-        
-        return this.dfs(nums, target, 0, 0, memo, totalSum)
-    }
-
     bottomUp(nums, target) {
         const n = nums.length;
         let dp = Array.from({ length: n + 1 }, () => ({}));
@@ -74,6 +64,16 @@ class Solution {
         }
         console.log(dp)
         return dp[n][target] || 0;
+    }
+
+    topDown(nums, target) {
+        const totalSum = nums.reduce(
+            (accumulator, currentValue) => accumulator + currentValue,
+            0,
+        );
+        const memo = Array.from(new Array(nums.length), (e) => new Array(2 * totalSum + 1).fill(Number.NEGATIVE_INFINITY))
+        
+        return this.dfs(nums, target, 0, 0, memo, totalSum)
     }
 
     dfs(nums, target, i, curTotal, memo, totalSum) {
