@@ -20,6 +20,9 @@ recursive backtrack and memo
         1. where rows is the current index 
         2. cols is the prevI compared to i
         Each cell is the max increasing length from col(prev I) to row(I)
+        for col 0, it stores the longest increasing from current index(row) to end
+
+        therefore, final result will be stored in memo[0][0] which is the longest increasing from 0 to end
 
 - Time: O(n^2)
 - Space: O(n^2)
