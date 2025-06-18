@@ -1,5 +1,7 @@
 // https://leetcode.com/problems/domino-and-tromino-tiling/description/?envType=study-plan-v2&envId=leetcode-75
 
+// https://leetcode.com/problems/domino-and-tromino-tiling/solutions/116581/detail-and-explanation-of-o-n-solution-why-dp-n-2-d-n-1-dp-n-3/?envType=study-plan-v2&envId=leetcode-75
+
 /*
 ** note
 Four-directionally adjacent cells mean two cells which are adjacent to each other in one of the four directions. This means that the two cells should be vertically or horizontally adjacent. Hence, two tilings are different iff. for the same pair of adjacent tiles in the two tilings, only one of them is occupied by the same tile.
@@ -23,24 +25,15 @@ recursive dfs backtracking with dp memo
 
 
 **
-base case 1: if n === 0: return 0
-base case 2: if n === 1: return 1
-
-(1) dp[n] = dp[n-1] + dp[n-2] + 2*(dp[n-3] + … + d[0])
-
-(2) dp[n] = dp[n-1] + dp[n-2] + dp[n-3] + dp[n-3] + 2*(dp[n-4] + … + d[0])
-
-(3) dp[n] = dp[n-1] + dp[n-3] + dp[n-2] + dp[n-3] + 2*(dp[n-4]+…+d[0])
-
-(4) dp[n] = dp[n-1] + dp[n-3] + (dp[n-2] + dp[n-3] + 2*(dp[n-4]+…+d[0]))
-
-Because dp[n] = dp[n-1] + dp[n-2] + 2*(dp[n - 3] + .. + d[0]),
-So, dp[n-1] = dp[n-2] + dp[n-3] + 2*(dp[n - 4] + .. + d[0]).
-We can now substitute the expression to dp[n-1].
-
-(4) dp[n] = dp[n-1] + dp[n-3] + (dp[n - 1])
-
-(5) dp[n] = 2*dp[n-1] + dp[n-3]
+dp[n]=dp[n-1]+dp[n-2]+ 2*(dp[n-3]+...+d[0])
+=dp[n-1]+dp[n-2]+dp[n-3]+dp[n-3]+2*(dp[n-4]+...+d[0]) // dp[n-n] = dp[0], and the previous state of dp[n-3] is dp[n-4] not dp[n-2]
+=dp[n-1]+dp[n-3]+(dp[n-2]+dp[n-3]+2*(dp[n-4]+...+d[0]))
+=dp[n-1]+dp[n-3]+dp[n-1]    
+    // (dp[n-2]+dp[n-3]+2*(dp[n-4]+...+d[0])) = dp[n-1]
+    Because dp[n] = dp[n-1] + dp[n-2] + 2*(dp[n - 3] + .. + d[0]),
+    So, dp[n-1] = dp[n-2] + dp[n-3] + 2*(dp[n - 4] + .. + d[0]).
+    We can now substitute the expression to dp[n-1].
+=2*dp[n-1]+dp[n-3]
 */
 
 // ** wrong
