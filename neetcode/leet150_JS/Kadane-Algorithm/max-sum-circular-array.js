@@ -13,7 +13,62 @@ else maxSum
 
 - Time: O(n)
 - Space: O(1)
+
+** initial method: fail
+
+save original length of nums
+l = 0
+currSum = 0
+maxSum = nums[0]
+
+push nums into nums so doubled
+
+iterate nums
+    if (i >= ogLen && i % ogLen >= l)   // the right of the subArray is now the same as the left.
+        currSum -= nums[l]      // remove left of subarray to avoid conflict of using duplicated index
+        l += 1
+
+        maxSum = max(maxSum, currSum)
+
+    currSum += nums[i]
+    maxSum = max(maxSum, currSum)
+
+    if (currSum < 0) {
+        l = i + 1
+        currSum = 0
+    }
+
+return maxSum
+
+- Time: O(2n)
+- Space: O(1)
 */
+
+const meth1 = (nums) => {
+    const ogLen = nums.length
+    let l = 0
+    let maxSum = nums[0]
+    let currSum = 0
+
+    nums.push(...nums)
+    console.log(nums)
+    for (let i = 0; i < nums.length; i ++) {
+        if (i >= ogLen && i % ogLen >= l) {
+            currSum -= nums[l]
+            l += 1
+            maxSum = Math.max(maxSum, currSum)
+        }
+
+        currSum += nums[i]
+        maxSum = Math.max(maxSum, currSum)
+        if (currSum < 0) {
+            l = i + 1
+            currSum = 0
+        }
+    }
+
+    return maxSum
+}
 
 /**
  * @param {number[]} nums
@@ -23,6 +78,7 @@ var maxSubarraySumCircular = function(nums) {
     if (nums.length === 0) {
         return 0
     }
+    // return meth1(nums)
 
     let total = 0
     let maxSum = nums[0]
