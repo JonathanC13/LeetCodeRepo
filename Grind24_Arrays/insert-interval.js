@@ -6,13 +6,13 @@ Note [0, 8] and [8, 10] overlap at 8
 create res array
 
 let i = 0
-while new Interval start >= intervals[i] end
+while new Interval start > intervals[i] end
     // not overlap with new, push into res
     res.push(intervals[i])
     i += 1
 
 merge new with all intervals that overlap
-while (intervals[i] start < new interval end)
+while (intervals[i] start <= new interval end)
     newInterval start = min(intervals[i] start, new interval start)
     newInterval end = max(intervals[i] end, new interval end)
     i += 1
