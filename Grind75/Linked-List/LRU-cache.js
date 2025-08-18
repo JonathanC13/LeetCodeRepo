@@ -68,7 +68,7 @@ var LRUCache = function(capacity) {
 };
 
 LRUCache.prototype.remove = (node) => {
-    if (node === this.head || node === this.tail || node.next === this.tail || node.prev === this.head) {
+    if (node === this.head || node === this.tail) {
         return
     }
     node.prev.next = node.next

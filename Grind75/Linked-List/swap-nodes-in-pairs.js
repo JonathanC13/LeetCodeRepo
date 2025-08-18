@@ -56,22 +56,23 @@ var swapPairs = function(head) {
     while (itr !== null) {
         let n = 2
         let revHead = itr
-        while (n > 1 && revHead !== null) {
+        while (n > 1 && revHead !== null) { // n > 1 so that the revHead lands on the node that is the head for the reversed pair.
             revHead = revHead.next
             n -= 1
         }
         
         if (revHead === null) {
-            partTail.next = itr
+            partTail.next = itr // since not enough nodes to reverse, the tail of the previous partition connects to the unaltered this partition.
             break
         }
 
-        partTail.next = revHead
-        partTail = itr
+        partTail.next = revHead // connect tail of previous partition to head of the partition that will be reversed
+        partTail = itr  // assign to the tail of the reversed partition
 
+        // reverse partition
         n = 2
         let prev = null
-        while (n > 0 && itr !== null) {
+        while (n > 0 && itr !== null) { // n > 0, so that last iteration will put itr into the first node of the next partition
             const next = itr.next
             itr.next = prev
             prev = itr
