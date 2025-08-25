@@ -92,4 +92,26 @@ const brute = function(heights) {
  */
 var largestRectangleArea = function(heights) {
     //return brute(heights)
+
+    // monotonic, one pass
+    const sk = new Array() // elem of [idx, val]
+    let maxArea = 0
+
+    for (let i = 0; i < heights.length; i ++) {
+        let start = i
+        while (sk.length > 0 && heights[i] <= sk[sk.length - 1][1]) {
+            const [idx, val] = sk.pop()
+            maxArea = Math.max(maxArea, val * (i - idx))    // eval the area of the prev larger bar
+            start = idx   // since the prev is larger, this bar's area can extend into it
+        }
+        sk.push([start, heights[i]])
+    }
+
+    // the remaining are in increasing order
+    const n = heights.length
+    while (sk.length > 0) {
+        const [idx, val] = sk.pop()
+        maxArea = Math.max(maxArea, val * (n - idx))    // n - idx since in increasing order the current bar's area can extend from idx to end
+    }
+    return maxArea
 };
