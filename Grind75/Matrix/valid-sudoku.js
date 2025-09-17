@@ -1,5 +1,4 @@
 // https://leetcode.com/problems/valid-sudoku/description/
-
 /**
 create a 2D Array of length 9 x 9. for each row(row) record which numbers have been used (col)
 create a 2D Array of length 9 x 9. for each col(row) record which numbers have been used (col)
@@ -32,10 +31,11 @@ var isValidSudoku = function(board) {
 
     for (let r = 0; r < rows; r ++) {
         for (let c = 0; c < cols; c ++) {
-            const val = board[r][c]
+            let val = board[r][c]
             if (val === '.') {
                 continue
             }
+            val -= 1
 
             if (arrRows[r][val] === true || arrCols[c][val] === true || arrQuad[Math.floor(r/3)][Math.floor(c/3)][val] === true) {
                 return false
