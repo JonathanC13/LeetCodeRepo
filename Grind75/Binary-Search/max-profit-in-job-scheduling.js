@@ -79,8 +79,8 @@ const rec = function(startTime, endTime, profit, i, n, memo) {
 
     // determine next job to start considering in the path. Since there may be many inbetween this job and the next valid, to reduce the time use binary search to find the closest suitable job where the startTime >= this endTime
     let l = i + 1
-    let r = n
-    let next = r
+    let r = n - 1
+    let next = n    // if no valid next jobs, it will go to n which is base case for no more jobs.
     while (l <= r) {
         const mid = Math.floor((r - l) / 2) + l
         if (startTime[mid] >= endTime[i]) {
