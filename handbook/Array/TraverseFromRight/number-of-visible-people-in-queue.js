@@ -92,3 +92,5 @@ var canSeePersonsCount = function(heights) {
 
     return ans
 };
+
+// console.log(canSeePersonsCount([10,6,8,5,11,9]))
