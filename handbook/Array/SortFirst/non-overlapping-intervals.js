@@ -64,7 +64,7 @@ var eraseOverlapIntervals = function(intervals) {
             currIntv[1] = Math.min(currIntv[1], intervals[i][1])
             rem += 1
             i += 1
-            // if want the specific interval that needs to be removed. The one with the greater end is it.
+            // if want the specific interval that needs to be removed. The one with the greater end is it. Actually not true lol, much harder.
         }
     }
 
