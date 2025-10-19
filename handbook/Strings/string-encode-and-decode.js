@@ -2,13 +2,17 @@
 
 /**
  * 1. Assumptions
- *  1. What are the valid characters in the Strings? UTF-8, all ascii
+ *  1. What are the valid characters in the Strings? All UTF-8 characters
  * 
  * 2. input validation
  *  - str instanceof Array
  *  - length:
  *      if str.length === 0: return ''
- *  - content, each String only has ascii chars
+ *  - content, each String only has UTF-8 characters
+ *      const regex = /^[\s\S]*$/u;
+ *          - [\s\S] matches any character, including newlines.
+ *          - The u flag makes the regex Unicode-aware, so it properly handles characters outside the BMP (like emojis, CJK, etc.).
+ *          - Anchors ^ and $ ensure it matches the whole string.
  * 
  * 3. time/space constraints
  *  - Encode:
@@ -31,7 +35,7 @@
  * 6. break into subproblems
  *  Encode
  *      For each String in strs, append to the encoded String in the format of: str.length + '$' + str. 
- *      This is so that when decoded it has a standard format. The '$' is the stopper for the length since digits can be > 1
+ *      This is so that when decoded it has a standard format. The '$' is the stopper for the length since digits can be > 1. Any valid UTF-8 character can be used as the 'stopper' since it will be the first specific character expected after the length.
  *  Decode
  *      While encoded still has chars
  *          Get the length of the encoded String by moving the index forward until the special stopper.
