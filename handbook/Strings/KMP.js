@@ -46,7 +46,7 @@ const search = (s, pat) => {
     if (lps.length === 0) {
         return []
     }
-    // console.log(lps)
+    console.log('LPS: ', lps)
     
     const res = new Array()
     const p = pat.length
@@ -80,8 +80,55 @@ const search = (s, pat) => {
 }
 
 // driver
-const txt = "aabaacaadaabaaba";
-const pat = "aaba";
+let txt = "aabaacaadaabaaba";
+let pat = "aaba";
 
-const res = search(txt, pat);
-console.log(res);
+let res = search(txt, pat);
+console.log('res: ', res);
+
+txt = "abababcababc";
+pat = "ababc";
+
+res = search(txt, pat);
+console.log('res: ', res);
+
+/*
+why LPS works
+
+const txt = "abababcababc";
+const pat = "ababc";
+
+const lps = computeLPSArray(pat) produces [0, 0, 1, 2, 0]
+
+consider current state:
+    i = 4, txt[4] = a
+    j = 4, pat[4] = c
+
+    The prepopulated LPS array, where each index is the substring's [0, i] longest prefix-suffix (lps), provides the fall back indexes so that if a match occurs the previous characters of the pattern do not need to be re-evaluated.
+        1. The patterned matched the txt until i = 4 and j = 4
+        txt = abababcababc
+        pat = ababc
+
+        2. there is a mismatch and since j !== 0 there may be a position in the pattern to fall back to so that the characters before it do not need to be re-evaluated.
+        j = lps[j - 1] = lps[3] = index 2
+
+        3. 
+        txt = abababcababc
+        pat =   aba
+
+        txt[4] = a
+        pat[2] = a
+
+        A match indicates that the prefix also matches since; 
+            1. got to j = 4 in the first place
+            2. fall back to j = 2, since lps[3] = 2, which means pat[2] to pat[3] has proper prefix from pat[0] to pat[1]
+            3. if pat[2] matches then pat[0] would match too, thefore continue to evaluate pat[3] next
+
+        A mismatch would either require:
+            1. if j === 0, cannot fall back any further. i += 1 to try new character in txt
+            2. fall back to another previous prefix-suffix. j = lps[j - 1]
+
+        since it is a match so i += 1 and j += 1 to evaluate the next character
+
+
+*/
