@@ -4,7 +4,8 @@
 1. Assumptions
     1. Specific range of characters?
         Lowercase English, therefore a bucket's key is the String representation of the counts of the 26 lowercase characters in the individual String
-        If can be any character, 
+        If can be any character, store the character frequencies into a Map, afterward insert the pair [key, val] into an Array (results in 2D Array), sort the Array by the first index (key) in asc/desc order,
+        Array.forEach((e) => e.join(':')) to stringify each element, finally join(",") the entire Array to create the bucket. e.g result: "+:1,8:3,a:4,g:2,0"
 
 2. Input validation
     - typing
