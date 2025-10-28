@@ -1,6 +1,6 @@
 // https://leetcode.com/problems/all-oone-data-structure/
 
-/** Try again with Map and doubly linked list like LRU problem.
+/** 
 1. Assumptions
     1. None
 
@@ -24,81 +24,91 @@
 
 5. visualize by drawing and manually solve
 6. break into subproblems
-    Create buckets and the index is the count of the String
-    The datastructure stored at each index is a Set of Strings with that count
+    For functions inc(key) and dec(key), to achieve average Time O(1), create a Map with key: key, value: node reference
+        The node reference is the node in a doubly linked list which has the attributes; key, count, prev, next.
+        Get the node reference with the parameter "key" and then increment/decrement the count then for inc(key) look forward while higher count then swap into or for dec(key) backward for lower count
 
-    For functions inc(key) and dec(key) to have average Time O(1), maintain a Map with key: String, value: count.
-    For functions getMaxKey() and getMinKey() to have Time O(1) maintain a variable to keep the max and a variable for the min.
-    
-    When inc(key) occurs
-        if (map not has key)
-            map.set(key, 0)
-
-        cnt = map.get(key)
-        // remove from current bucket
-        arr[cnt].delete(key)
-        // update min if needed
-        if (cnt + 1 < this.min || (this.min === cnt && this.arr[cnt].size() === 0)) {
-            min = cnt + 1
-        }
-
-        // update max if needed
-        if cnt + 1 > max
-            max = cnt + 1
-        
-        cnt += 1
-        arr[cnt].add(key)
-        map.set(key, cnt)
+    For function getMaxKey(). return tail.prev.key
+    For function getMinKey(). return head.next.key
 
 7. algos
     - Hashing
+    - traversing doubly linked list
 
 8. datastructures
-    - Array
+    - doubly Linked list
     - Hash table
 
 9. complexity
     Time: O(1) average for all functions
-    Space: O(n + m) // n = unique Strings in Map, m = max count
+    Space: O(n + m) // n = unique Strings in Map, m = max nodes in doubly linked list
  */
+
+class Node {
+    constructor(key, count, prev = null, next = null) {
+        this.key = key
+        this.count = count
+        this.prev = prev
+        this.next = next
+    }
+}
 
 var AllOne = function() {
     this.map = new Map()
-    this.buckets = new Array(1).fill().map((e) => new Set())
-    this.min = 0
-    this.max = 0
+
+    this.low = new Node(-1, 0)
+    this.high = new Node(-1, 0, this.low)
+    this.low.next = this.high
 };
+
+// disconnect
+AllOne.prototype.disconnect = function(node) {
+    node.prev.next = node.next
+    node.next.prev = node.prev
+
+    node.prev = null
+    node.next = null
+}
+
+// insertBefore
+AllOne.prototype.insertBefore = function(node, nextNode) {
+    if (node === nextNode) {
+        return
+    }
+    node.prev = nextNode.prev
+    node.next = nextNode
+
+    node.prev.next = node
+    node.next.prev = node
+}
 
 /** 
  * @param {string} key
  * @return {void}
  */
 AllOne.prototype.inc = function(key) {
-    if (!this.map.has(key)) {
-        this.map.set(key, 0)
+    // console.log('inc', key)
+    // this.iterateLL(this.low)
+    let node = null
+    if (this.map.has(key)) {
+        node = this.map.get(key)
+    } else {
+        node = new Node(key, 0)
+        // insert at this.low.next
+        this.insertBefore(node, this.low.next)
+        
+        this.map.set(key, node)
+    }
+    node.count += 1
+
+    // look forward while current node's count > itr node's count then swap into
+    let itr = node.next
+    while (itr !== this.high && node.count > itr.count) {
+        itr = itr.next
     }
 
-    let cnt = this.map.get(key)
-    // remove from current bucket
-    this.buckets[cnt].delete(key)
-    cnt += 1
-    if (cnt >= this.buckets.length) {
-        this.buckets.push(new Set())
-    }
-    // update min if needed
-    if (cnt < this.min || (this.min === cnt - 1 && this.buckets[cnt - 1].size === 0)) {
-        // || prev min has no Strings therefore min increases
-        this.min = cnt
-    }
-
-    // update max if needed
-    if (cnt > this.max) {
-        this.max = cnt
-    }
-    
-    
-    this.buckets[cnt].add(key)
-    this.map.set(key, cnt)
+    this.disconnect(node)
+    this.insertBefore(node, itr)
 };
 
 /** 
@@ -106,30 +116,28 @@ AllOne.prototype.inc = function(key) {
  * @return {void}
  */
 AllOne.prototype.dec = function(key) {
-    if (!this.map.has(key)) {
-        return
-    }
-
-    let cnt = this.map.get(key)
-    // remove from current bucket
-    this.buckets[cnt].delete(key)
-    cnt -= 1
-    // update min if needed
-    if (cnt < this.min) {
-        this.min = cnt
-    }
-
-    // update max if needed
-    if (cnt + 1 === this.max && this.buckets[cnt + 1].size === 0) {
-        // prev max has no Strings, therefore max decreases
-        this.max = cnt
-    }
-    
-    if (cnt > 0) {
-        this.buckets[cnt].add(key)
-        this.map.set(key, cnt)
+    // console.log('inc', key)
+    // this.iterateLL(this.low)
+    let node = null
+    if (this.map.has(key)) {
+        node = this.map.get(key)
     } else {
+        return  // problem states that the dec key will always exist. Just quit if does not.
+    }
+
+    node.count -= 1
+    if (node.count === 0) {
+        this.disconnect(node)
         this.map.delete(key)
+    } else {
+        // look backward while current node's count < itr node's count
+        let itr = node.prev
+        while (itr !== this.low && node.count < itr.count) {
+            itr = itr.prev
+        }
+
+        this.disconnect(node)
+        this.insertBefore(node, itr.next)
     }
 };
 
@@ -137,23 +145,35 @@ AllOne.prototype.dec = function(key) {
  * @return {string}
  */
 AllOne.prototype.getMaxKey = function() {
-    console.log('max', this.max, this.buckets, this.map)
-    if (this.max === 0) {
+    // console.log('max')
+    // this.iterateLL(this.low)
+    if (this.low.next === this.high) {
         return ""
     }
-    return Array.from(this.buckets[this.max])[0]
+    return this.high.prev.key
 };
 
 /**
  * @return {string}
  */
 AllOne.prototype.getMinKey = function() {
-    console.log('min', this.min, this.buckets, this.map)
-    if (this.min === 0) {
+    // console.log('min')
+    // this.iterateLL(this.low)
+    if (this.low.next === this.high) {
         return ""
     }
-    return Array.from(this.buckets[this.min])[0]
+    return this.low.next.key
 };
+
+AllOne.prototype.iterateLL = function(head) {
+    let itr = head
+    let str = ''
+    while (itr !== null) {
+        str += `${itr.key}:${itr.count}, `
+        itr = itr.next
+    }
+    console.log(str)
+}
 
 /** 
  * Your AllOne object will be instantiated and called as such:
