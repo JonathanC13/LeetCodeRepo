@@ -39,6 +39,67 @@ Example 2
 Constraints:
 1. 1 ≤ n ≤ 14 (as per typical implementations) 
 2. You must generate all possible numbers of length exactly n that satisfy the strobogrammatic property.
+
+1. Assumptions
+    1. n >= 0
+
+2. input validation
+    n is a Number that is >= 0
+
+3. time and space constraints
+    BTTC: O(n * 5^((n/2)))  // 5 strob numbers to put on sides ^, since rec(n-2)
+    Space: O(n * 5^((n/2))) // + stack which is O(n/2) ~= n
+
+4. edge cases and some test cases
+    edge cases
+    1. n = 0
+        res = [""]
+    2. n = 1
+        res = ["0", "1", "8"]
+    some test cases
+    1. n = 2
+        expected output
+            ["11", "69", "88", "96"]
+    2. n = 3
+        expected output
+            [
+            '101', '609', '808',
+            '906', '111', '619',
+            '818', '916', '181',
+            '689', '888', '986'
+            ]
+
+5. visualize by drawing and manaully solve
+6. break into subproblems
+    To ensure a strobogrammatic number is being constructed, build the number from the center outward left and right
+    recursive function
+        base cases
+        1. n === 0
+            return [""]
+        2. n === 1
+            return ["0", "1", "8"]  // valid strobo numbers when n = 1
+
+        centers = reduce the number of digits by -2 (left and right) until get to the base case centers of n = 0 or n = 1
+        
+        iterate the centers
+            iterate the valid strobogrammatic number pairs
+                if the outermost sides of a strobo number (end === n) AND key === '0'
+                    continue
+
+                newStrobos.push(key + center + val)
+
+        return newStrobos   // return newly constructed strobo centers to recursive caller
+
+7. algos
+    1. recursive breakdown of problem
+
+8. data structures
+    1. recursive stack
+    2. Arrays
+
+9. complexity
+    BTTC: O(n * 5^((n/2)))  // 5 strob numbers to put on sides ^, since rec(n-2)
+    Space: O(n * 5^((n/2))) // + stack which is O(n/2) ~= n
  * 
  */
 
