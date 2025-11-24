@@ -43,7 +43,7 @@
     slow = dummy
     fast = head // fast starts one node ahead so that "slow" will land on the node before the one to remove
 
-    // move fast to mirror of remove position + 1. eg length = 5, n = 2, remove 4th node. fast go to position 3
+    // move fast to create n nodes between slow and fast.
     while (n > 0 && fast !== null) {
         fast = fast.next
     }
@@ -53,7 +53,7 @@
         return head
     }
 
-    // move slow to node before the node to be removed
+    // since slow and fast have n nodes between them, by moving slow and fast until fast === null the final position of slow will be node - 1 to be removed.
     while (fast !== null) {
         slow = slow.next
         fast = fast.next

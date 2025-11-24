@@ -1,0 +1,23 @@
+{
+  "name": "leetcoderepo",
+  "version": "1.0.0",
+  "description": "LeetCode stuff I guess",
+  "main": "fizz-buzz.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/JonathanC13/LeetCodeRepo.git"
+  },
+  "keywords": [],
+  "author": "J",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/JonathanC13/LeetCodeRepo/issues"
+  },
+  "homepage": "https://github.com/JonathanC13/LeetCodeRepo#readme",
+  "dependencies": {
+    "@datastructures-js/deque": "^1.0.8"
+  }
+}
