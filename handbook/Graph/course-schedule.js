@@ -74,7 +74,7 @@ var canFinish = function(numCourses, prerequisites) {
 };
 
 const kahn = (numCourses, adjList, incoming) => {
-    const visited = new Array(numCourses).fill(false) // cycle detected #1
+    const visited = new Array(numCourses).fill(false) // cycle detected #1. Actually do NOT need a visited mechanism since if there is a cycle the nodes will not achieve 0 incoming edges to be enqueued!
 
     const qu = new Deque()
     for (let i = 0; i < incoming.length; i ++) {
