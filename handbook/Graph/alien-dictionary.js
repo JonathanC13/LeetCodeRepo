@@ -131,7 +131,7 @@ class Solution {
         while (topoStack.length > 0) {
             res += topoStack.pop()
         }
-        return res.length !== visited.size ? "" : res
+        return res.length !== adjList.size ? "" : res
     }
 }
 
@@ -140,7 +140,7 @@ const KahnTopo = (adjList, incoming) => {
     const qu = new Deque()
     let res = ""
     for (let [node, inc] of incoming) {
-        if (incoming.get(node) === 0) {
+        if (inc === 0) {
             res += node
             qu.pushBack(node)
         }
@@ -178,5 +178,5 @@ const DFS = (node, adjList, visited, processed, topoStack) => {
 
     processed.add(node)
     topoStack.push(node)
-    return
+    return true
 }
