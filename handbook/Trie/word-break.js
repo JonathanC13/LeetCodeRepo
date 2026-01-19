@@ -74,10 +74,12 @@ Trie Solution, which also uses the recursive solution but makes searching if the
         rec(s, wordDict, i + 1)
 
         let itr = root
-        while (i < s.length && itr !== null)
-            checking if substring exists
+        from j = i to s.length traverse Trie root in search of word.
+            if (char not in children) {
+                break since word does not exist
+            }
 
-            if (itr.endWord === true && rec(s, i + 1, ...) === true)
+            if (itr.endWord === true && rec(s, i + 1, ...) === true)    // if an endWord is found, continue from beginning of Trie for next word.
                 memo[i] = true
                 return true
 
@@ -151,10 +153,11 @@ const backtracking = (root, s, i, memo) => {
         itr = itr.next[ord]
 
         if (itr === null) {
+            // cannot continue since no word
             break
         }
 
-        if (itr.endWord === true && backtracking(root, s, j + 1, memo)) {
+        if (itr.endWord === true && backtracking(root, s, j + 1, memo)) {   // if found the end of a word, continue from beginning of Trie for next word
             memo[i] = true
             return true
         }
