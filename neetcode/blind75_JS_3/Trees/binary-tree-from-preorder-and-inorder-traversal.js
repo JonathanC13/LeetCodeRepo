@@ -44,6 +44,7 @@
  * 
  *      right subtree
  *      node.right = rec(preorder[i + 1,], inorder[i+1,])
+ * 
  *  return current node. Since creating in preorder, returning this node is the child of the caller
  * 
  * 7. algos
