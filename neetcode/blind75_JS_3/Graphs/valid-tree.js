@@ -53,6 +53,9 @@
  *      if returns false, there is a cycle
  *  return set.size === n
  * 
+ * **In BFS function, it creates the visited Array for cycle detection within
+ * **DFS can have a global one since when the node is finished they visited is unmarked when recursive stack popped.
+ * 
  * 7. algos
  *  - DFS traversal of graph
  *      
