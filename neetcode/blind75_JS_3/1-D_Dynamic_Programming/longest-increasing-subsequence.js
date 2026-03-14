@@ -8,7 +8,7 @@
  *  1. nums
  *      - nums instanceof Array
  *      - nums.length >= 0
- *      - nums element's are Number
+ *      - nums's elements are Number
  * 
  * 3. time and space constraints
  *  BTTC: O(n^2)

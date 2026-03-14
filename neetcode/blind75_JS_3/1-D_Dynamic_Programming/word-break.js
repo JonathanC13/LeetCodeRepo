@@ -12,7 +12,7 @@
  *  2. wordDict
  *      - wordDict instanceof Array
  *      - wordDict.length >= 0
- *      - wordDict element's are String
+ *      - wordDict's element are String
  * 
  * 3. time and space constraints
  *  BTTC: O(m * n)  // m = s.length, n = wordDict.length
