@@ -28,7 +28,7 @@
  *      expected output
  *          2
  * 
- *  2. not possible to rott all
+ *  2. not possible to rot all
  *      inputs
  *          grid = [
  *              [1,0,0],
@@ -40,7 +40,7 @@
  * 
  * 5. visualize by drawing and manually solve
  * 6. break into subproblems
- *  Mutli source BFS since same minute rotted orange, need to rott all adjacent for next minute
+ *  Mutli source BFS since same minute rotted orange, need to rot all adjacent for next minute
  *  To know if all fresh oranges rotted, iterate grid and count all fresh
  *  minutes = 0
  *  maintain a queue for the current rotten oranges, enqueue minute 0 rotted oranges
